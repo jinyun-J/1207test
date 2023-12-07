@@ -1,0 +1,45 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <div class="row my-3">
+        <div class="col-6">
+            <!-- '질문 등록하기' 버튼에 대한 링크를 추가 -->
+            <a th:href="@{/article/create}" class="btn btn-primary">질문 등록하기</a>
+        </div>
+
+        <div class="col-6">
+            <form th:action="@{/article/list}">
+                <div class="input-group">
+                    <!-- 검색어 입력 필드 -->
+                    <input type="text" name="kw" id="search_kw" class="form-control" th:value="${kw}">
+                    <!-- '찾기' 버튼 -->
+                    <button class="btn btn-outline-secondary" type="submit" id="btn_search">찾기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- 기존 페이징 부분 삭제 -->
+    <!-- 테이블 헤더 추가 -->
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 루프를 통해 목록 출력  -->
+        <tr th:each="article, loop : ${articleList}">
+            <!-- 번호 출력 -->
+            <td th:text="${loop.count}"></td>
+            <!-- 제목 링크 -->
+            <td>
+                <a th:href="@{|/article/detail/${article.id}|}" th:text="${article.subject}"></a>
+            </td>
+            <!-- 작성일시 포맷팅 -->
+            <td th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
